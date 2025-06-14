@@ -1,5 +1,48 @@
-h1 {
-    color: rgb(58, 58, 145);
-    font-size: 24px;
-    font-family: 'Courier New', Courier, monospace
+/* CSS for HTML page */
+body {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    margin:0px;
+    padding:20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#topname {
+    font-size: 60px;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    padding: 0;
+    margin: 0;
+}
+
+#content {
+    width: 80%;
+    margin: 0 auto 0 auto;
+    padding: 20px;
+    max-width:900px;
+    background-color: rgb(255, 216, 181);
+    border-radius: 50px;
+    min-height:500px;
+    border: 2px dotted black;
+}
+
+#profilepic {
+    border-radius:50px;
+    width:300px;
+    float: right;
+    padding:20px;
+}
+#pic {
+    padding-top:1px;
+}
+
+#links {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+a {
+    color:black;
+    text-decoration: underline;
+    font-size: 18px;
 }
