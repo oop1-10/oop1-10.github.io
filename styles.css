@@ -1,48 +1,63 @@
 /* CSS for HTML page */
 body {
-    background-color: rgb(255, 255, 255);
-    text-align: center;
+    background-color: rgb(39, 39, 39);
     margin:0px;
-    padding:20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0px;
+    
 }
 
-#topname {
+p {
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+    font-size: 18px;
+}
+h1 {
+    color: white;
     font-size: 60px;
     font-family: 'Courier New', Courier, monospace;
-    color: black;
-    padding: 0;
-    margin: 0;
+    margin:0;
+}
+
+hr {
+    margin: 10px auto;
+    width: 85%;
+}
+
+footer {
+    padding: 0px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 #content {
     width: 80%;
     margin: 0 auto 0 auto;
     padding: 20px;
+    text-align: center;
     max-width:900px;
-    background-color: rgb(255, 216, 181);
-    border-radius: 50px;
+    background-color: rgb(32, 32, 32);
+    border-radius: 20px;
     min-height:500px;
-    border: 2px dotted black;
+    border: 1px dashed white;
+    color: white;
+    float: top;
 }
 
 #profilepic {
     border-radius:50px;
     width:300px;
     float: right;
-    padding:20px;
-}
-#pic {
-    padding-top:1px;
+    padding:10px;
 }
 
 #links {
     padding-top: 0;
     margin-top: 0;
-}
-
-a {
-    color:black;
-    text-decoration: underline;
-    font-size: 18px;
 }
