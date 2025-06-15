@@ -8,17 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
             "value": 120,
             "density": {
               "enable": true,
-              "value_area": 800
+              "value_area": 700
             }
           },
           "color": {
-            "value": "#ffffff"
+            "value": "#86b9b0"
           },
           "shape": {
             "type": "circle",
             "stroke": {
               "width": 0,
-              "color": "#000000"
+              "color": "#86b9b0"
             },
             "polygon": {
               "nb_sides": 5
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "line_linked": {
             "enable": true,
             "distance": 120,
-            "color": "#ffffff",
+            "color": "#86b9b0",
             "opacity": 0.4,
             "width": 1
           },
