@@ -1,4 +1,8 @@
 /* CSS for HTML page */
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: rgb(39, 39, 39);
     margin:0px;
@@ -8,7 +12,9 @@ body {
 
 p {
     font-size: 14px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 300;
+    font-style: thin;
     color: white;
 }
 
@@ -20,17 +26,41 @@ a {
 h1 {
     color: white;
     font-size: 60px;
-    font-family: 'Courier New', Courier, monospace;
+    font-optical-sizing: auto;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 100;
+    font-style: thin;
     margin:0;
 }
 
 hr {
     margin: 10px auto;
-    width: 85%;
+    width: 90%;
+    height: 2px;
+    border: none;
+    background: linear-gradient(to left, red, orange, yellow, green, blue, indigo, violet);
+    animation: hue-rotate 2s linear infinite;
+}
+
+@keyframes hue-rotate {
+    from {
+        filter: hue-rotate(0deg);
+    }
+    to {
+        filter: hue-rotate(360deg);
+    }
 }
 
 .footer {
     font-size:10px;
+}
+
+#bio {
+    margin: auto;
+    width: 400px;
+    margin-left: calc((100% - 400px - 320px) / 2);
+    margin-right: 320px;
+    text-align: center;
 }
 
 #content {
@@ -42,7 +72,11 @@ hr {
     background-color: rgb(32, 32, 32);
     border-radius: 20px;
     min-height:500px;
-    border: 1px dashed white;
+    border-top: none;
+    border-left: 1px dashed #ccc;
+    border-right: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    border-radius: 0 0 10px 10px;
     color: white;
     float: top;
 }
@@ -51,10 +85,15 @@ hr {
     border-radius:50px;
     width:300px;
     float: right;
-    padding:10px;
+    border: 2px solid rgb(255, 255, 255);
 }
 
 #links {
     padding-top: 0;
     margin-top: 0;
+}
+#profile {
+    float: right;
+    width: 310px;
+    height:360px;
 }
