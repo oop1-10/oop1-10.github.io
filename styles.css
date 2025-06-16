@@ -47,22 +47,22 @@ p {
 }
 .links:hover {
     color: transparent;
-    background: linear-gradient(to left, #041421, #042630, #4c7273, #86b9b0, #d0d6d6);
+    background: linear-gradient(to left, #041421, #042630, #4c7273, #86b9b0, #d0d6d6, #86b9b0, #4c7273, #042630, #041421);
     -webkit-background-clip: text;
     background-clip:text;
-    animation: hue-rotate 2s linear infinite;
-    -webkit-background-size: 300%;
-    background-size:300%;
+    animation: slide 4s linear infinite;
+    -webkit-background-size: 200%;
+    background-size:200%;
 }
 
 h1, h2 { 
     color: #d0d6d6;
     font-size: 60px;
     font-optical-sizing: auto;
-    font-family: "Roboto", 'Courier-new', monospace;
-    font-weight: 100;
+    font-family: "JetBrains Mono", 'Courier-new', monospace;
+    font-weight: 300;
     font-style: thin;
-    margin:0;
+    margin:0 0 10px 0;
 }
 
 hr {
@@ -70,10 +70,9 @@ hr {
     width: 90%;
     height: 2px;
     border: none;
-    background: linear-gradient(to left, #041421, #042630, #4c7273, #86b9b0, #d0d6d6);
-    animation: hue-rotate 4s alternate infinite;
-    -webkit-background-size: 100%;
-    background-size:100%;
+    background: linear-gradient(to left, #041421, #042630, #4c7273, #86b9b0, #d0d6d6, #86b9b0, #4c7273, #042630, #041421);
+    background-size: 200% auto;
+    animation: slide 4s linear infinite;
 }
 
 @keyframes hue-rotate {
@@ -82,6 +81,15 @@ hr {
     }
     to {
         filter: hue-rotate(360deg);
+    }
+}
+
+@keyframes slide {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
     }
 }
 
@@ -181,7 +189,7 @@ hr {
     mask-composite: xor;
     -webkit-mask-clip: text, padding-box;
     mask-clip: text, padding-box;
-    margin: -1px;
+    
 }
 .projectcard:hover figcaption{
   --_i: 0%;
