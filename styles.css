@@ -126,6 +126,15 @@ hr {
     }
 }
 
+@keyframes slide-out {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
 #content {
     width: 80%;
     margin: 0 auto 0 auto;
@@ -144,7 +153,7 @@ hr {
     position: relative;
     overflow: auto;
     z-index: 1;
-    animation: 0.9s cubic-bezier(0, 0, 0.48, 1) 0s 1 running slide-in;
+    animation: slide-in 0.9s cubic-bezier(0, 0, 0.48, 1) forwards;
     scrollbar-width: thin;
     scrollbar-color: #d0d6d6 transparent;
 }
@@ -226,4 +235,36 @@ hr {
     gap: 25px;
     margin: auto;
     width: 100%;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    background-color: #061f33;
+    color: #d0d6d6;
+    border: 1px dashed #d0d6d6;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 300;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+.back-button:hover {
+    background-color: #042630;
+    color: #86b9b0;
+    border-color: #86b9b0;
+}
+
+/* Media query for when screen is too narrow */
+@media screen and (max-width: 1200px) {
+    .back-button {
+        position: fixed;
+        left: 20px;
+        right: auto;
+    }
 }
