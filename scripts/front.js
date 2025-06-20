@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener('click', function(e) {
             if (this.href && this.href.startsWith(window.location.origin)) {
                 e.preventDefault();
-                const currentPage = document.getElementById('content');
+                const currentPage = document.querySelector('.content');
                 currentPage.style.animation = 'slide-out 0.9s cubic-bezier(0, 0, 0.48, 1) forwards';
                 
                 setTimeout(() => {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add click handler specifically for the back button
         backButton.addEventListener('click', function(e) {
             e.preventDefault();
-            const currentPage = document.getElementById('content');
+            const currentPage = document.querySelector(".content");
             currentPage.style.animation = 'slide-out 0.9s cubic-bezier(0, 0, 0.48, 1) forwards';
             
             setTimeout(() => {
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(backButton);
 
         // Position the button relative to the content div
-        const contentDiv = document.getElementById('content');
+        const contentDiv = document.querySelector(".content");
         const updateButtonPosition = () => {
             const contentRect = contentDiv.getBoundingClientRect();
             const windowWidth = window.innerWidth;

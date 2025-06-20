@@ -103,10 +103,16 @@ hr {
     font-size:10px;
 }
 
-#bio {
-    width: 400px;
+.bio {
     text-align: center;
     letter-spacing: 0.8px;
+}
+
+.thin {
+    width: 250px;
+}
+.thick {
+    width: 400px;
 }
 
 .aboutme {
@@ -135,7 +141,7 @@ hr {
     }
 }
 
-#content {
+.content {
     width: 80%;
     margin: 0 auto 0 auto;
     padding: 20px 20px 0 20px;
@@ -158,16 +164,23 @@ hr {
     scrollbar-color: #d0d6d6 transparent;
 }
 
-#profilepic {
+.profilepic {
     border-radius:40px;
-    width:300px;
     border: 2px solid #d0d6d6;
 }
 
-#projectimg {
+.mainimg {
+    width: 300px;
+}
+
+.projectimg {
     height: 250px;
     width: 250px;
     object-fit:cover;
+}
+.projectimgWide {
+    height: 260px;
+    width: 400px;
 }
 
 .projectcard {
@@ -178,7 +191,8 @@ hr {
     width: 250px;
     height: 250px;
     margin: auto;
-
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1), left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #projectlink {
