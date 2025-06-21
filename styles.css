@@ -269,9 +269,9 @@ hr {
 }
 
 .back-button:hover {
-    background-color: #042630;
-    color: #86b9b0;
-    border-color: #86b9b0;
+    background-color: #0c3f68;
+    color: #ffffff;
+    border-color: #ffffff;
 }
 
 /* Media query for when screen is too narrow */
@@ -289,7 +289,6 @@ hr {
     background-color: #061f33;
     color: #d0d6d6;
     padding: 20px 20px;
-    border-radius: 5px;
     cursor: pointer;
     font-family: "Roboto", 'Courier-new', monospace;
     font-weight: 300;
@@ -302,9 +301,9 @@ hr {
 }
 
 .in-project-button:hover {
-    background-color: #042630;
-    color: #86b9b0;
-    border-color: #86b9b0;
+    background-color: #0c3f68;
+    color: #ffffff;
+    border-color: #ffffff;
 }
 
 .project-panel {
@@ -338,7 +337,7 @@ hr {
     transition: background-color 0.3s ease;
 }
 .panel-toggle:hover {
-    background-color: #042630;
+    background-color: #0c3f68;
 }
 .project-panel.collapsed .in-project-button {
     display: none;
