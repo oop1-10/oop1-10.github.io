@@ -282,3 +282,67 @@ hr {
         right: auto;
     }
 }
+
+.in-project-button {
+    position: static; /* remove fixed */
+    top: 20px;
+    background-color: #061f33;
+    color: #d0d6d6;
+    padding: 20px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 300;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    white-space: normal;
+    width: 100%;
+    text-decoration:none;
+}
+
+.in-project-button:hover {
+    background-color: #042630;
+    color: #86b9b0;
+    border-color: #86b9b0;
+}
+
+.project-panel {
+    position: fixed;
+    background-color: #061f33;
+    border: 1px dashed #d0d6d6;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    transition: max-height 0.9s ease, opacity 0.3s ease;
+    overflow: hidden;
+    max-height: 1000px;
+}
+
+.panel-toggle {
+    background-color: #061f33;
+    color: #fff;
+    /* remove border */
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 300;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
+}
+.panel-toggle:hover {
+    background-color: #042630;
+}
+.project-panel.collapsed .in-project-button {
+    display: none;
+}
+.project-panel.collapsed {
+    max-height: 40px; /* just toggle button height */
+}

@@ -33,8 +33,51 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 900);
         });
 
-        // Append the button to the body
+        // Append back button and build project panel by fetching homepage project links
         document.body.appendChild(backButton);
+        const panel = document.createElement('div');
+        panel.className = 'project-panel';
+        panel.style.opacity = '0';
+        document.body.appendChild(panel);
+        fetch('/')
+            .then(res => res.text())
+            .then(html => {
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                const links = doc.querySelectorAll('.projecttab a');
+                links.forEach(link => {
+                    const rawHref = link.getAttribute('href');
+                    const href = rawHref.startsWith('/') ? rawHref : `/${rawHref}`;
+                    const fallback = link.textContent.trim();
+                    const btn = document.createElement('a');
+                    btn.setAttribute('role','button');
+                    btn.className = 'in-project-button';
+                    btn.href = href;
+                    // Fetch project page to get its <title>
+                    fetch(href)
+                        .then(r => r.text())
+                        .then(pageHtml => {
+                            const pdoc = new DOMParser().parseFromString(pageHtml, 'text/html');
+                            btn.textContent = pdoc.querySelector('title')?.textContent || fallback;
+                        })
+                        .catch(() => { btn.textContent = fallback; });
+                    btn.addEventListener('click', e => {
+                        e.preventDefault();
+                        document.querySelector('.content').style.animation = 'slide-out 0.9s cubic-bezier(0,0,0.48,1) forwards';
+                        setTimeout(() => window.location.href = btn.href, 900);
+                    });
+                    panel.appendChild(btn);
+                });
+                setTimeout(() => panel.style.opacity = '1', 900);
+                // Add collapse/expand toggle button at bottom
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'panel-toggle';
+                toggleBtn.textContent = '▲';
+                toggleBtn.addEventListener('click', () => {
+                    panel.classList.toggle('collapsed');
+                    toggleBtn.textContent = panel.classList.contains('collapsed') ? '▼' : '▲';
+                });
+                panel.appendChild(toggleBtn);
+            }); // end fetch then(html)
 
         // Position the button relative to the content div
         const contentDiv = document.querySelector(".content");
@@ -53,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 backButton.style.left = '20px';
                 backButton.style.right = 'auto';
             }
+            // position panel below back button and match its width
+            panel.style.left = backButton.style.left;
+            panel.style.top = `${contentRect.top + backButton.offsetHeight + 30}px`;
+            panel.style.width = `${backButton.offsetWidth}px`;
             backButton.style.top = `${contentRect.top + 20}px`;
         };
 
@@ -188,5 +235,3 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error initializing particles:", error);
     }
 });
-
-var particlesJS;
