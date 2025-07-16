@@ -1,3 +1,27 @@
+function copyCode(btn) {
+    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+    const code = codeElement.innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+}
+
+function viewRaw(btn) {
+    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+    const code = codeElement.innerText;
+    const blob = new Blob([code], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+}
+
+function downloadCode(a, filename) {
+    const codeElement = a.parentElement.nextElementSibling.querySelector('code');
+    const code = codeElement.innerText;
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(code);
+    a.download = filename;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // Add page transition handling
     document.querySelectorAll('a').forEach(link => {
@@ -237,4 +261,4 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
         console.error("Error initializing particles:", error);
     }
-});
+})

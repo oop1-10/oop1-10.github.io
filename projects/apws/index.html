@@ -59,6 +59,7 @@
                             <li>Uses a water pump and water reservoir to adjust plant moisture levels accordingly</li>
                             <li>Also makes uses of external OLED display to display real-time moisture levels</li>
                         </ul>
+                        <h2 class="medium-header">Code</h2>
                         <div class="code-box">
                             <div class="code-header">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -167,30 +168,5 @@ void loop() {
                     <p class="footer align-center">Last updated: July 5, 2025 12:31:31 AM<br>© 2025 Thomas Newman, Hosted on Github Pages</p>
                 </footer>
             </div>
-            <script>
-                function copyCode(btn) {
-                    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
-                    const code = codeElement.innerText;
-                    navigator.clipboard.writeText(code).then(() => {
-                        btn.textContent = 'Copied!';
-                        setTimeout(() => btn.textContent = 'Copy', 2000);
-                    });
-                }
-
-                function viewRaw(btn) {
-                    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
-                    const code = codeElement.innerText;
-                    const blob = new Blob([code], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    window.open(url, '_blank');
-                }
-
-                function downloadCode(a, filename) {
-                    const codeElement = a.parentElement.nextElementSibling.querySelector('code');
-                    const code = codeElement.innerText;
-                    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(code);
-                    a.download = filename;
-                }
-            </script>
         </body>
     </html>

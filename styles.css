@@ -1,9 +1,8 @@
-/* CSS for HTML page */
 * {
     box-sizing: border-box;
 }
 
-::-moz-selection { /* Code for Firefox */
+::-moz-selection { 
   color: #041421;
   background: #d0d6d6;
 }
@@ -18,6 +17,7 @@ body {
     margin:0px;
     padding: 0px;
 }
+
 #particles-js {
     position: fixed;
     width: 100%;
@@ -133,6 +133,7 @@ hr {
 .thin {
     width: 250px;
 }
+
 .thick {
     width: 400px;
 }
@@ -203,6 +204,7 @@ hr {
     width: 250px;
     object-fit:cover;
 }
+
 .projectimgWide {
     height: 260px;
     width: 400px;
@@ -230,13 +232,13 @@ hr {
   grid-area: 1/1;
   transition: .2s;
 }
+
 .projectcard figcaption {
     display: grid;
     align-items: end;
     font-family: sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
-    /* Changed text color to be visible */
     color: #d0d6d6;
     padding: .75rem;
     background: var(--c,#0009);
@@ -258,7 +260,6 @@ hr {
 
 .projectcard:hover figcaption{
   --_i: 0%;
-  /* Override masking to reveal text */
   -webkit-mask: none;
   mask: none;
   color: #d0d6d6;
@@ -348,7 +349,6 @@ hr {
 .panel-toggle {
     background-color: #061f33;
     color: #fff;
-    /* remove border */
     border: none;
     padding: 8px;
     border-radius: 5px;
@@ -361,12 +361,15 @@ hr {
     margin-top: 5px;
     transition: background-color 0.3s ease;
 }
+
 .panel-toggle:hover {
     background-color: #0c3f68;
 }
+
 .project-panel.collapsed .in-project-button {
     display: none;
 }
+
 .project-panel.collapsed {
     max-height: 40px;
 }
@@ -378,11 +381,11 @@ hr {
     margin: 20px 0;
     width: 100%;
     overflow: hidden;
-    font-family: 'JetBrains Mono', monospace; /* Matches your site's font for code */
+    font-family: "Roboto", 'Courier-new', monospace;
 }
 .code-header {
     display: flex;
-    justify-content: flex-end; /* Align buttons to the right like GitHub */
+    justify-content: flex-end;
     background-color: #061f33;
     padding: 8px 12px;
     border-bottom: 1px solid #d0d6d6;
@@ -390,7 +393,7 @@ hr {
 
 
 .code-header button, .code-header a {
-    margin-left: 8px; /* Space between buttons */
+    margin-left: 8px;
     padding: 4px 10px;
     background-color: #061f33;
     color: #d0d6d6;
@@ -411,7 +414,7 @@ hr {
 
 .code-header button::before, .code-header a::before {
     text-align: center;
-    font-size: 16px; /* Slightly larger for icons */
+    font-size: 16px;
 }
 
 .copy-btn::before {
@@ -457,17 +460,17 @@ hr {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    text-align: right; /* Right-align numbers for professionalism */
-    color: #d0d6d6; /* Match your site's text color */
+    text-align: right; 
+    color: #d0d6d6; 
     opacity: 0.5;
     vertical-align: top;
-    padding: 0 8px 0 0 !important; /* Padding for spacing */
-    width: 1%; /* Minimal width */
+    padding: 0 8px 0 0 !important; 
+    width: 1%;
     white-space: nowrap;
 }
 
 .hljs-ln-code {
-    padding-left: 12px !important; /* Space code from numbers */
+    padding-left: 12px !important;
 }
 
 .hljs-ln-line {
