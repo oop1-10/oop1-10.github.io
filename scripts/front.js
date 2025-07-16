@@ -1,3 +1,69 @@
+function loadCodeFile(box, file) {
+    const pre = box.querySelector('pre');
+    const code = pre.querySelector('code');
+    const fileUrl = `./${file}`; // Assumes files in same dir; adjust if in subdir like 'code/'
+    
+    fetch(fileUrl)
+        .then(res => {
+            if (!res.ok) throw new Error('File not found');
+            return res.text();
+        })
+        .then(text => {
+            // Reset the pre/code structure
+            pre.innerHTML = '<code class="language-cpp"></code>';
+            const newCode = pre.querySelector('code');
+            newCode.textContent = text;
+            
+            // Re-highlight and add line numbers
+            hljs.highlightElement(newCode);
+            hljs.lineNumbersBlock(newCode);
+            
+            // Update active class on file buttons
+            box.querySelectorAll('.file-selector button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.file === file);
+            });
+            
+            // Store current file for raw/download/copy
+            box.dataset.currentFileUrl = fileUrl;
+            box.dataset.currentFilename = file;
+        })
+        .catch(err => {
+            pre.innerHTML = '<code>Error loading file: ' + err.message + '</code>';
+        });
+}
+
+// Updated View Raw (use actual file URL)
+function viewRaw(btn) {
+    const box = btn.closest('.code-box');
+    const fileUrl = box.dataset.currentFileUrl;
+    if (fileUrl) {
+        window.open(fileUrl, '_blank');
+    }
+}
+
+// Updated Download (use actual file URL with download attribute)
+function downloadCode(a, filename) {
+    const box = a.closest('.code-box');
+    const fileUrl = box.dataset.currentFileUrl;
+    if (fileUrl) {
+        a.href = fileUrl;
+        a.download = filename || box.dataset.currentFilename;
+    }
+}
+
+// Init: Add listeners to file buttons and load first file
+document.querySelectorAll('.code-box').forEach(box => {
+    const fileButtons = box.querySelectorAll('.file-selector button');
+    fileButtons.forEach(btn => {
+        btn.addEventListener('click', () => loadCodeFile(box, btn.dataset.file));
+    });
+    
+    // Load the first file by default
+    if (fileButtons.length > 0) {
+        fileButtons[0].click();
+    }
+});
+
 function copyCode(btn) {
     const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
     const code = codeElement.innerText;
@@ -5,21 +71,6 @@ function copyCode(btn) {
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy', 2000);
     });
-}
-
-function viewRaw(btn) {
-    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
-    const code = codeElement.innerText;
-    const blob = new Blob([code], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-}
-
-function downloadCode(a, filename) {
-    const codeElement = a.parentElement.nextElementSibling.querySelector('code');
-    const code = codeElement.innerText;
-    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(code);
-    a.download = filename;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
