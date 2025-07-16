@@ -9,6 +9,10 @@
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
         </head>
 
         <!-- Google tag (gtag.js) -->
@@ -55,6 +59,107 @@
                             <li>Uses a water pump and water reservoir to adjust plant moisture levels accordingly</li>
                             <li>Also makes uses of external OLED display to display real-time moisture levels</li>
                         </ul>
+                        <div class="code-box">
+                            <div class="code-header">
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                <button class="raw-btn" onclick="viewRaw(this)">View Raw</button>
+                                <a class="download-link" href="#" onclick="downloadCode(this, 'plant_watering.ino')">Download</a>
+                            </div>
+                            <pre><code class="language-cpp">// needed libraries
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+
+// declare an SSD1306 display object connected to I2C
+Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &amp;Wire, -1);
+
+const int dry = 500; //the value at which the plant is dry
+const int pumpPin = 10; //pump connected to pin 10
+const int soilSensor = A0; //the soil moisture sensor reads the value from the analog pin A0
+
+void setup() {
+    Serial.begin(9600);
+    // initialize OLED display with address 0x3C for 128x64
+    if (!oled.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println(F("SSD1306 allocation failed"));
+        while (true);
+    }
+    delay(2000); // wait for initializing
+    oled.clearDisplay(); // clear display
+    oled.setTextSize(4); // text size
+    oled.setTextColor(WHITE); // text color
+    oled.setCursor(0, 0); // position to display
+    oled.println("Hello"); //inscription when switching on
+    oled.display(); //activating the screen
+    delay(3000); //oled Loading script
+    oled.clearDisplay();
+    oled.setCursor(0, 0);
+    oled.setTextSize(3);
+    oled.println("Loading");
+    oled.setCursor(80, 12);
+    oled.setTextSize(3); //loading animation(dots)
+    oled.println(".");
+    oled.display();
+    delay(1000);
+    oled.setCursor(95, 12);
+    oled.setTextSize(3);
+    oled.println(".");
+    oled.display();
+    delay(1000);
+    oled.setCursor(110, 12);
+    oled.setTextSize(3);
+    oled.println(".");
+    oled.display();
+    //water intake by a pump
+    pinMode(pumpPin, OUTPUT);
+    pinMode(soilSensor, INPUT);
+    Serial.begin(9600);
+    digitalWrite(pumpPin, HIGH);
+    delay(500);
+}
+
+void loop() {
+    delay(1000);
+    oled.clearDisplay();
+    oled.setTextSize(2);
+    oled.setTextColor(WHITE);
+    oled.setCursor(0, 0);
+    oled.println("Fern :) "); //the name of your plant that will be visible all the time
+    oled.display();
+    // read current moisture
+    int moisture = analogRead(soilSensor);
+    Serial.println(moisture);
+    oled.setTextSize(1);
+    oled.println("value: " + String(moisture));
+    oled.display();
+    delay(5000);
+    if (moisture &gt;= dry) {
+        // the soil is too dry, water!
+        Serial.println("Watering starts now..moisture is " + String(moisture));
+        oled.println("watering required");
+        oled.display();
+        digitalWrite(pumpPin, LOW); // keep watering for 5 sec
+        delay(2000);
+        // turn off water
+        digitalWrite(pumpPin, HIGH);
+        Serial.println("Done watering.");
+        oled.setTextSize(2);
+        oled.setCursor(0, 0);
+        oled.clearDisplay();
+        oled.println("Done ");
+        oled.println("Watering");
+        oled.display();
+    } else {
+        Serial.println("Moisture is adequate. No watering needed " + String(moisture));
+        oled.println("watering not required");
+        oled.display();
+    }
+}
+                        </code></pre>
+                        </div>
                     </div>
                 </div>
                 <br><hr>
@@ -62,5 +167,30 @@
                     <p class="footer align-center">Last updated: July 5, 2025 12:31:31 AM<br>© 2025 Thomas Newman, Hosted on Github Pages</p>
                 </footer>
             </div>
+            <script>
+                function copyCode(btn) {
+                    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+                    const code = codeElement.innerText;
+                    navigator.clipboard.writeText(code).then(() => {
+                        btn.textContent = 'Copied!';
+                        setTimeout(() => btn.textContent = 'Copy', 2000);
+                    });
+                }
+
+                function viewRaw(btn) {
+                    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+                    const code = codeElement.innerText;
+                    const blob = new Blob([code], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                }
+
+                function downloadCode(a, filename) {
+                    const codeElement = a.parentElement.nextElementSibling.querySelector('code');
+                    const code = codeElement.innerText;
+                    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(code);
+                    a.download = filename;
+                }
+            </script>
         </body>
     </html>

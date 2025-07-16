@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+
     // Add back button to project pages
     if (window.location.pathname.includes('/projects/')) {
         const backButton = document.createElement('button');

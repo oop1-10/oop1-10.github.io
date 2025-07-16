@@ -44,6 +44,7 @@ li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .links:link, .links:visited, .links:active {
@@ -308,7 +309,7 @@ hr {
 }
 
 .in-project-button {
-    position: static; /* remove fixed */
+    position: static; 
     top: 20px;
     background-color: #061f33;
     color: #d0d6d6;
@@ -367,5 +368,109 @@ hr {
     display: none;
 }
 .project-panel.collapsed {
-    max-height: 40px; /* just toggle button height */
+    max-height: 40px;
+}
+
+.code-box {
+    border: 1px solid #d0d6d6;
+    border-radius: 5px;
+    background-color: #041421;
+    margin: 20px 0;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace; /* Matches your site's font for code */
+}
+.code-header {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right like GitHub */
+    background-color: #061f33;
+    padding: 8px 12px;
+    border-bottom: 1px solid #d0d6d6;
+}
+
+
+.code-header button, .code-header a {
+    margin-left: 8px; /* Space between buttons */
+    padding: 4px 10px;
+    background-color: #061f33;
+    color: #d0d6d6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.code-header button:hover, .code-header a:hover {
+    background-color: #0c3f68;
+    color: #ffffff;
+}
+
+.code-header button::before, .code-header a::before {
+    text-align: center;
+    font-size: 16px; /* Slightly larger for icons */
+}
+
+.copy-btn::before {
+    content: ''; /* placeholder for icon later */
+}
+
+.raw-btn::before {
+    content: ''; /* placeholder for icon later */
+}
+
+.download-link::before {
+    content: ''; /* placeholder for icon later */
+}
+
+.code-box pre {
+    margin: 0;
+    overflow: auto;
+    max-height: 400px;
+    padding: 0px 4px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.code-box code {
+    background: none !important;
+}
+
+/* Line numbers styles (from plugin) */
+.hljs-ln {
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+}
+
+.hljs-ln td {
+    padding: 0;
+}
+
+.hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: right; /* Right-align numbers for professionalism */
+    color: #d0d6d6; /* Match your site's text color */
+    opacity: 0.5;
+    vertical-align: top;
+    padding: 0 8px 0 0 !important; /* Padding for spacing */
+    width: 1%; /* Minimal width */
+    white-space: nowrap;
+}
+
+.hljs-ln-code {
+    padding-left: 12px !important; /* Space code from numbers */
+}
+
+.hljs-ln-line {
+    padding-top: 0;
+    padding-bottom: 0;
 }
