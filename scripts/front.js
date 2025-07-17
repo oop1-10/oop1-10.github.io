@@ -108,8 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    hljs.highlightAll();
-    hljs.initLineNumbersOnLoad();
+    if (typeof hljs !== 'undefined') {
+        hljs.highlightAll();
+        if (typeof hljs.initLineNumbersOnLoad === 'function') {
+            hljs.initLineNumbersOnLoad();
+        }
+    }
 
     // Add back button to project pages
     if (window.location.pathname.includes('/projects/')) {
