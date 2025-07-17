@@ -385,19 +385,26 @@ hr {
 }
 .code-header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: center;
     background-color: #061f33;
     padding: 8px 12px;
     border-bottom: 1px solid #d0d6d6;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
+.code-header > * {
+    flex: 0 0 auto;
+}
 
 .code-header button, .code-header a {
     margin-left: 8px;
     padding: 4px 10px;
     background-color: #061f33;
     color: #d0d6d6;
-    border: none;
+    border: 1px solid #0c3f68;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
@@ -481,27 +488,27 @@ hr {
 .file-selector {
     display: flex;
     justify-content: flex-start;
-    background-color: #061f33;
-    padding: 8px 12px;
-    border-bottom: 1px solid #d0d6d6;
+    background: transparent;
+    padding: 0;
+    border-bottom: none;
+    margin-right: 12px;
 }
 .file-selector button {
     margin-right: 8px;
     padding: 4px 10px;
-    background-color: #0c3f68;
+    background-color: #061f33;
     color: #d0d6d6;
-    border: 1px solid #4c7273;
+    border: 1px solid #0c3f68;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 .file-selector button:hover {
-    background-color: #4c7273;
+    background-color: #0c3f68;
     color: #ffffff;
 }
 .file-selector button.active {
-    background-color: #86b9b0;
-    color: #041421;
-    border-color: #d0d6d6;
+    background-color: #0c3f68;
+    color: #ffffff;
 }

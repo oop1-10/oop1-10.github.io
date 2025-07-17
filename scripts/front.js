@@ -32,51 +32,70 @@ function loadCodeFile(box, file) {
         });
 }
 
-// Updated View Raw (use actual file URL)
-function viewRaw(btn) {
-    const box = btn.closest('.code-box');
-    const fileUrl = box.dataset.currentFileUrl;
-    if (fileUrl) {
-        window.open(fileUrl, '_blank');
-    }
-}
-
-// Updated Download (use actual file URL with download attribute)
-function downloadCode(a, filename) {
-    const box = a.closest('.code-box');
-    const fileUrl = box.dataset.currentFileUrl;
-    if (fileUrl) {
-        a.href = fileUrl;
-        a.download = filename || box.dataset.currentFilename;
-    }
-}
-
-// Init: Add listeners to file buttons and load first file
-document.querySelectorAll('.code-box').forEach(box => {
-    const fileButtons = box.querySelectorAll('.file-selector button');
-    fileButtons.forEach(btn => {
-        btn.addEventListener('click', () => loadCodeFile(box, btn.dataset.file));
-    });
-    
-    // Load the first file by default
-    if (fileButtons.length > 0) {
-        fileButtons[0].click();
-    }
-});
-
-function copyCode(btn) {
-    const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
-    const code = codeElement.innerText;
-    navigator.clipboard.writeText(code).then(() => {
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy', 2000);
-    });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-    // Add page transition handling
+    // Init: Add listeners to file buttons and load first file
+    document.querySelectorAll('.code-box').forEach(box => {
+        const fileButtons = box.querySelectorAll('.file-selector button');
+        fileButtons.forEach(btn => {
+            btn.addEventListener('click', () => loadCodeFile(box, btn.dataset.file));
+        });
+        
+        // Load the first file by default
+        if (fileButtons.length > 0) {
+            fileButtons[0].click();
+        }
+
+        // Attach action button handlers
+        const copyBtn = box.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', () => copyCode(copyBtn));
+
+        const rawBtn = box.querySelector('.raw-btn');
+        rawBtn.addEventListener('click', () => viewRaw(rawBtn));
+
+        // Attach download handler
+        const dlLink = box.querySelector('.download-link');
+        dlLink.addEventListener('click', e => {
+            e.preventDefault();
+            downloadCode(dlLink);
+        });
+    });
+
+    function copyCode(btn) {
+        const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+        let code = codeElement.innerText;
+        code = code.split('\n').filter(line => line.trim() !== '').join('\n');
+        navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        });
+    }
+
+    function viewRaw(btn) {
+        const box = btn.closest('.code-box');
+        const fileUrl = box.dataset.currentFileUrl;
+        if (fileUrl) {
+            window.open(fileUrl, '_blank');
+        }
+    }
+
+    function downloadCode(btn) {
+        const box = btn.closest('.code-box');
+        const fileUrl = box.dataset.currentFileUrl;
+        const filename = box.dataset.currentFilename;
+        if (fileUrl) {
+            const tempA = document.createElement('a');
+            tempA.href = fileUrl;
+            tempA.download = filename;
+            document.body.appendChild(tempA);
+            tempA.click();
+            document.body.removeChild(tempA);
+        }
+    }
+
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
+            // skip download-link so it won't trigger exit animation
+            if (this.classList.contains('download-link')) return;
             if (this.href && this.href.startsWith(window.location.origin)) {
                 e.preventDefault();
                 const currentPage = document.querySelector('.content');
@@ -192,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('resize', updateButtonPosition);
         window.addEventListener('scroll', updateButtonPosition);
     }
-
+    // settings for particles.js
     try {
         console.log("Initializing particles.js");
         if (typeof particlesJS !== "undefined") {

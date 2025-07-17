@@ -62,15 +62,14 @@
                         <hr>
                         <h2 class="medium-header">Code</h2>
                         <div class="code-box">
-                            <div class="file-selector">
-                                <button data-file="PumpApp.java">Main Code</button>
-                                <button data-file="PumpTask.java">Helpers</button>
-                                <!-- Add more buttons for additional files -->
-                            </div>
                             <div class="code-header">
-                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <button class="raw-btn" onclick="viewRaw(this)">View Raw</button>
-                                <a class="download-link" href="#" onclick="downloadCode(this)">Download</a>
+                                <div class="file-selector">
+                                    <button class="file-btn" data-file="PumpApp.java">PumpApp.java</button>
+                                    <button class="file-btn" data-file="PumpTask.java">PumpTask.java</button>
+                                </div>
+                                <button class="copy-btn">Copy</button>
+                                <button class="raw-btn">View Raw</button>
+                                <a class="download-link" href="#">Download</a>
                             </div>
                             <pre><code class="language-java">Loading code...</code></pre>
                         </div>
@@ -81,5 +80,7 @@
                     <p class="footer align-center">Last updated: July 5, 2025 12:31:31 AM<br>© 2025 Thomas Newman, Hosted on Github Pages</p>
                 </footer>
             </div>
+        </body>
+    </html>
         </body>
     </html>
