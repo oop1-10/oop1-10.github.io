@@ -512,3 +512,8 @@ hr {
     background-color: #0c3f68;
     color: #ffffff;
 }
+.tool-buttons {
+    display: flex;
+    margin-right: 0;
+    margin-left: auto;
+}

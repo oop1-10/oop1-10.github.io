@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function copyCode(btn) {
-        const codeElement = btn.parentElement.nextElementSibling.querySelector('code');
+        const codeElement = btn.parentElement.parentElement.nextElementSibling.querySelector('code');
         let code = codeElement.innerText;
         code = code.split('\n').filter(line => line.trim() !== '').join('\n');
         navigator.clipboard.writeText(code).then(() => {
