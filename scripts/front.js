@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const contentRect = contentDiv.getBoundingClientRect();
             const windowWidth = window.innerWidth;
             
-            if (windowWidth > 1200) {
+            if (windowWidth > 1360) {
                 // Position to the left of content when there's enough space
                 backButton.style.position = 'fixed';
                 backButton.style.left = `${contentRect.left - backButton.offsetWidth - 20}px`;
@@ -207,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Wait for the page animation to complete before showing the button
         setTimeout(() => {
             updateButtonPosition();
-            backButton.style.transition = 'opacity 0.3s ease';
             backButton.style.opacity = '1';
         }, 900); // Match the duration of the slide-in animation
 

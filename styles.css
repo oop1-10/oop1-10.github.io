@@ -289,15 +289,14 @@ hr {
     font-family: "Roboto", 'Courier-new', monospace;
     font-weight: 300;
     font-size: 16px;
-    transition: all 0.3s ease;
     z-index: 1000;
     white-space: nowrap;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .back-button:hover {
     background-color: #0c3f68;
     color: #ffffff;
-    border-color: #ffffff;
 }
 
 /* Media query for when screen is too narrow */
