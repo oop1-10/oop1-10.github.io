@@ -739,3 +739,10 @@ hr {
     height: 6px; 
     right: 11px; 
 }
+
+.footerlogo {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 auto;
+    padding: 0;
+}
