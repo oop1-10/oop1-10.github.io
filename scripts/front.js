@@ -32,7 +32,6 @@ function loadCodeFile(box, file) {
         });
 }
 
-// Performance utilities
 function throttle(func, limit) {
     let inThrottle;
     return function() {
@@ -59,30 +58,28 @@ function debounce(func, wait) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Cache DOM elements
     const body = document.body;
     const contentDiv = document.querySelector(".content");
-    
-    // Init: Add listeners to file buttons and load first file
+    const progressBar = document.querySelector('.progress-bar');
+    const progress = document.querySelector(".progress");
+    var pageHeight = contentDiv.scrollHeight;
+
     document.querySelectorAll('.code-box').forEach(box => {
         const fileButtons = box.querySelectorAll('.file-selector button');
         fileButtons.forEach(btn => {
             btn.addEventListener('click', () => loadCodeFile(box, btn.dataset.file));
         });
         
-        // Load the first file by default
         if (fileButtons.length > 0) {
             fileButtons[0].click();
         }
 
-        // Attach action button handlers
         const copyBtn = box.querySelector('.copy-btn');
         copyBtn.addEventListener('click', () => copyCode(copyBtn));
 
         const rawBtn = box.querySelector('.raw-btn');
         rawBtn.addEventListener('click', () => viewRaw(rawBtn));
 
-        // Attach download handler
         const dlLink = box.querySelector('.download-link');
         dlLink.addEventListener('click', e => {
             e.preventDefault();
@@ -124,11 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
-            // skip download-link so it won't trigger exit animation
             if (this.classList.contains('download-link')) return;
             if (this.href && this.href.startsWith(window.location.origin)) {
                 e.preventDefault();
-                const currentPage = document.querySelector('.content');
+                const currentPage = contentDiv;
                 currentPage.style.animation = 'slide-out 0.9s cubic-bezier(0, 0, 0.48, 1) forwards';
                 
                 setTimeout(() => {
@@ -147,13 +143,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add back button to project pages
     if (window.location.pathname.includes('/projects/')) {
+        const markers = document.querySelectorAll('h1, h2');
+        markerAmount = markers.length;
+        markerHeights = [];
+
+        var totalHeight = 0;
+        markers.forEach((marker, index) => {
+            const headingMarker = document.createElement('div');
+            const headingLabel = document.createElement('span');
+            headingLabel.textContent = marker.textContent;
+            progressBar.appendChild(headingMarker);
+            progressBar.appendChild(headingLabel);
+            headingMarker.classList.add('marker');
+            headingLabel.classList.add('marker-label');
+            headingLabel.style.left = `${20 + headingMarker.left}px`;
+
+            const percent = (totalHeight/pageHeight) * 100;
+            headingMarker.style.top = percent + "%";
+            headingLabel.style.top = (percent * 0.7) + 9.5 + "%";
+
+            progressBar.appendChild(headingLabel);
+
+            markerHeights.push(percent);
+
+            const next = markers[index + 1];
+            const start = marker.offsetTop;
+            const end   = next ? next.offsetTop : contentDiv.scrollHeight;
+            totalHeight += end - start;
+
+            headingMarker.addEventListener('click', function() {
+                const scrollTo = start - contentDiv.offsetTop;
+                contentDiv.scrollTo({
+                    top: scrollTo,
+                    behavior: 'smooth'
+                });
+                headingMarker.style.animation = 'toc-click-pulse 0.3s ease-out forwards';
+                setTimeout(() => headingMarker.style.animation = '', 300);
+            });
+
+            headingMarker.addEventListener('mouseover', function() {
+                headingLabel.style.opacity = '1';
+            });
+            headingMarker.addEventListener('mouseout', function() {
+                headingLabel.style.opacity = '0.2';
+            });
+        });
+
+        contentDiv.addEventListener('scroll', updateProgress);
+
+        function updateProgress() {
+            const scrollTop = contentDiv.scrollTop;
+            const maxScroll = contentDiv.scrollHeight - contentDiv.clientHeight;
+            const percent = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+            progress.style.height = percent + "%";
+
+            for (let i = 0; i < markerAmount; i++) {
+                const markerPercent = markerHeights[i];
+                const nextMarkerPercent = markerHeights[i+1] || 100;
+                
+                if (percent >= markerPercent && percent < nextMarkerPercent) {
+                    progressBar.children[(i*2)+1].classList.add('active-heading');
+                    progressBar.children[(i*2)+2].style.opacity = '1';
+                } else if (percent === 100) {
+                    progressBar.children[children.length-1].classList.add('active-heading');
+                } else {
+                    progressBar.children[(i*2)+1].classList.remove('active-heading');
+                    progressBar.children[(i*2)+2].style.opacity = '0.2';
+                }
+            }
+        }
+
+        updateProgress();
+        
         const backButton = document.createElement('button');
         backButton.className = 'back-button';
         backButton.textContent = '← Back to Homepage';
         backButton.href = '/';
         backButton.style.opacity = '0';
         
-        // Add click handler specifically for the back button
         backButton.addEventListener('click', function(e) {
             e.preventDefault();
             const currentPage = document.querySelector(".content");
@@ -187,8 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.className = 'in-project-button';
                     btn.href = href;
                     
-                    // Fetch project page to get its <title>
-                    fetch(href)
+                    fetch(href) 
                         .then(r => r.text())
                         .then(pageHtml => {
                             const pdoc = new DOMParser().parseFromString(pageHtml, 'text/html');
@@ -218,7 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 panel.appendChild(toggleBtn);
             });
 
-        // Simplified position update function (no caching)
         const updateButtonPosition = () => {
             const contentRect = contentDiv.getBoundingClientRect();
             const windowWidth = window.innerWidth;
@@ -227,229 +292,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 backButton.style.position = 'fixed';
                 backButton.style.left = `${contentRect.left - backButton.offsetWidth - 20}px`;
                 backButton.style.right = 'auto';
+                
             } else {
                 backButton.style.position = 'fixed';
                 backButton.style.left = '20px';
                 backButton.style.right = 'auto';
+                progressBar.style.left = '5px';
             }
             
+            progressBar.style.left = `${contentRect.left + contentRect.width + 20}px`;
+
             panel.style.left = backButton.style.left;
             panel.style.top = `${contentRect.top + backButton.offsetHeight + 30}px`;
             panel.style.width = `${backButton.offsetWidth}px`;
             backButton.style.top = `${contentRect.top + 20}px`;
         };
 
-        // Wait for the page animation to complete before showing the button
         setTimeout(() => {
             updateButtonPosition();
             backButton.style.opacity = '1';
+            progressBar.style.opacity = '1';
         }, 900);
 
-        // Throttled event listeners
-        const throttledUpdatePosition = throttle(updateButtonPosition, 16); // ~60fps
-        window.addEventListener('resize', debounce(updateButtonPosition, 100));
+        const throttledUpdatePosition = throttle(updateButtonPosition, 0); // ~60fps
+        window.addEventListener('resize', debounce(updateButtonPosition, 0));
         window.addEventListener('scroll', throttledUpdatePosition);
-    }
-
-    // Table of Contents Widget
-    function initTableOfContents() {
-        const headings = document.querySelectorAll('.content h1, .content h2, .content h3, .content h4');
-        if (headings.length < 2) return;
-
-        // Cache elements and values
-        const tocWidget = document.createElement('div');
-        tocWidget.className = 'toc-widget';
-        
-        const progressTrack = document.createElement('div');
-        progressTrack.className = 'toc-progress-track';
-        tocWidget.appendChild(progressTrack);
-        
-        const progressBar = document.createElement('div');
-        progressBar.className = 'toc-progress-bar';
-        tocWidget.appendChild(progressBar);
-
-        const tocItems = [];
-        
-        // Create items individually and append them
-        headings.forEach((heading, index) => {
-            if (!heading.id) {
-                heading.id = `heading-${index}`;
-            }
-
-            const tocItem = document.createElement('button');
-            tocItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
-            tocItem.setAttribute('aria-label', heading.textContent);
-            
-            // Position items from 10% to 80% to avoid clipping
-            const itemPosition = headings.length === 1 ? 10 : 10 + (index / (headings.length - 1)) * 70;
-            tocItem.style.position = 'absolute';
-            tocItem.style.top = `${itemPosition}%`;
-            tocItem.style.transform = 'translateY(-50%)';
-            
-            tocItem.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Add click animation
-                tocItem.classList.add('clicked');
-                setTimeout(() => {
-                    tocItem.classList.remove('clicked');
-                }, 400);
-                
-                // Scroll to heading
-                heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-
-            // Add the button to the widget first
-            tocWidget.appendChild(tocItem);
-            
-            // Now create and add the label as a separate element
-            const label = document.createElement('span');
-            label.className = 'toc-item-label';
-            label.textContent = heading.textContent;
-            label.style.position = 'absolute';
-            label.style.left = '35px';
-            label.style.top = `${itemPosition}%`;
-            label.style.transform = 'translateY(-50%)';
-            label.style.background = 'transparent';
-            label.style.color = 'rgba(255, 255, 255, 0.5)';
-            label.style.padding = '4px 8px';
-            label.style.borderRadius = '4px';
-            label.style.fontSize = '12px';
-            label.style.whiteSpace = 'nowrap';
-            label.style.opacity = '0';
-            label.style.visibility = 'hidden';
-            label.style.transition = 'all 0.2s ease';
-            label.style.zIndex = '1002';
-            label.style.pointerEvents = 'none';
-            label.style.maxWidth = '200px';
-            label.style.overflow = 'hidden';
-            label.style.textOverflow = 'ellipsis';
-            label.style.fontWeight = '400';
-            
-            // Add the label to the widget
-            tocWidget.appendChild(label);
-            
-            // Store references for hover events
-            tocItems.push({ 
-                element: tocItem, 
-                heading: heading, 
-                label: label 
-            });
-            
-            // Add hover events
-            tocItem.addEventListener('mouseenter', () => {
-                label.style.opacity = '1';
-                label.style.visibility = 'visible';
-                label.style.transform = 'translateY(-50%) translateX(5px)';
-            });
-            
-            tocItem.addEventListener('mouseleave', () => {
-                label.style.opacity = '0';
-                label.style.visibility = 'hidden';
-                label.style.transform = 'translateY(-50%)';
-            });
-        });
-        
-        body.appendChild(tocWidget);
-
-        let lastScrollTop = -1;
-        let lastActiveIndex = -1;
-
-        // Simplified position update function (no caching)
-        const updateTOCPosition = () => {
-            const contentRect = contentDiv.getBoundingClientRect();
-            const windowWidth = window.innerWidth;
-            
-            if (windowWidth > 1400) {
-                tocWidget.style.position = 'fixed';
-                tocWidget.style.left = `${contentRect.right + 20}px`;
-                tocWidget.style.top = `${contentRect.top + 60}px`;
-                tocWidget.style.height = `${Math.min(contentRect.height - 120, window.innerHeight * 0.6)}px`;
-                tocWidget.classList.add('visible');
-            } else {
-                tocWidget.classList.remove('visible');
-            }
-        };
-
-        const trackScroll = () => {
-            const scrollTop = contentDiv.scrollTop;
-            
-            // Skip if scroll hasn't changed significantly
-            if (Math.abs(scrollTop - lastScrollTop) < 5) return;
-            lastScrollTop = scrollTop;
-            
-            const scrollHeight = contentDiv.scrollHeight;
-            const clientHeight = contentDiv.clientHeight;
-            const maxScroll = scrollHeight - clientHeight;
-            
-            // Update progress bar
-            let scrollProgress = 0;
-            if (maxScroll > 0) {
-                scrollProgress = Math.min(1, Math.max(0, scrollTop / maxScroll));
-            }
-            progressBar.style.height = `${scrollProgress * 100}%`;
-            
-            // Find active heading
-            let newActiveIndex = -1;
-            const offset = clientHeight * 0.3;
-            
-            for (let i = 0; i < headings.length; i++) {
-                const headingOffsetTop = headings[i].offsetTop - contentDiv.offsetTop;
-                const nextHeadingOffsetTop = i < headings.length - 1 ? 
-                    headings[i + 1].offsetTop - contentDiv.offsetTop : 
-                    scrollHeight;
-                
-                if (scrollTop + offset >= headingOffsetTop && scrollTop + offset < nextHeadingOffsetTop) {
-                    newActiveIndex = i;
-                    break;
-                }
-            }
-            
-            if (newActiveIndex === -1 && scrollTop + clientHeight >= scrollHeight - 10) {
-                newActiveIndex = headings.length - 1;
-            }
-
-            // Only update active state if it changed
-            if (newActiveIndex !== lastActiveIndex) {
-                tocItems.forEach((item, index) => {
-                    item.element.classList.remove('active');
-                    // Update label color based on active state
-                    if (index === newActiveIndex) {
-                        item.label.style.color = 'rgba(255, 255, 255, 1.0)';
-                    } else {
-                        item.label.style.color = 'rgba(255, 255, 255, 0.5)';
-                    }
-                });
-                
-                if (newActiveIndex >= 0 && tocItems[newActiveIndex]) {
-                    tocItems[newActiveIndex].element.classList.add('active');
-                }
-                
-                lastActiveIndex = newActiveIndex;
-            }
-        };
-
-        // Initialize after content loads
-        setTimeout(() => {
-            updateTOCPosition();
-            trackScroll();
-        }, 100);
-
-        // Throttled event listeners for better performance
-        const throttledTrackScroll = throttle(trackScroll, 16); // ~60fps
-        const throttledUpdateTOC = throttle(updateTOCPosition, 16);
-        
-        window.addEventListener('resize', debounce(updateTOCPosition, 100));
-        window.addEventListener('scroll', throttledUpdateTOC);
-        contentDiv.addEventListener('scroll', throttledTrackScroll);
-    }
-
-    // Initialize TOC for project pages
-    if (window.location.pathname.includes('/projects/')) {
-        // Use requestAnimationFrame for better timing
-        requestAnimationFrame(() => {
-            setTimeout(initTableOfContents, 1000);
-        });
     }
 
     // settings for particles.js
@@ -459,10 +326,10 @@ document.addEventListener("DOMContentLoaded", () => {
             particlesJS("particles-js", {
                 "particles": {
                     "number": {
-                        "value": 120,
+                        "value": 60,
                         "density": {
                             "enable": true,
-                            "value_area": 1000 // Increased area for fewer particles
+                            "value_area": 2000
                         }
                     },
                     "color": {
@@ -484,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     },
                     "opacity": {
-                        "value": 0.5,
+                        "value": 0.7,
                         "random": false,
                         "anim": {
                             "enable": false,
@@ -512,13 +379,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     "move": {
                         "enable": true,
-                        "speed": 1, // Reduced speed
+                        "speed": 1,
                         "direction": "none",
                         "random": false,
                         "straight": false,
                         "out_mode": "out",
                         "bounce": false
-                        // Removed attract
                     }
                 },
                 "interactivity": {

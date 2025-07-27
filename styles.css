@@ -184,7 +184,6 @@ hr {
     float: top;
     position: relative;
     overflow: auto;
-    z-index: 1;
     animation: slide-in 0.9s cubic-bezier(0, 0, 0.48, 1) forwards;
     scrollbar-width: thin;
     scrollbar-color: #d0d6d6 transparent;
@@ -531,218 +530,78 @@ hr {
     margin-left: auto;
 }
 
-/* Table of Contents Widget */
-.toc-widget {
-    position: fixed;
-    width: 30px; /* Increased width to accommodate larger circles */
-    background: transparent;
-    border: none;
-    padding: 15px 0;
-    font-family: "Roboto", 'Courier-new', monospace;
-    font-size: 10px;
-    font-weight: 300;
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: block;
-    max-height: 60vh;
-    /* Performance optimizations */
-    will-change: opacity;
-    transform: translateZ(0);
-    contain: layout style paint;
-    overflow: visible;
-}
-
-.toc-widget.visible {
-    opacity: 1;
-}
-
-.toc-progress-track {
-    position: absolute;
-    right: 13px; /* Centered in the widget */
-    top: 15px;
-    bottom: 15px;
-    width: 2px;
-    background: rgba(134, 185, 176, 0.2);
-    border-radius: 1px;
-}
-
-.toc-progress-bar {
-    position: absolute;
-    right: 13px; /* Centered in the widget */
-    top: 15px;
-    width: 2px;
-    background: linear-gradient(to bottom, #86b9b0, #4c7273);
-    border-radius: 1px;
-    transition: height 0.1s ease;
-    transform-origin: top;
-    height: 0%;
-    /* Performance optimizations */
-    will-change: height;
-    transform: translateZ(0);
-}
-
-.toc-item {
-    position: absolute;
-    display: block;
-    width: 100%;
-    height: 20px; /* Increased height for better interaction */
-    cursor: pointer;
-    transition: all 0.15s ease;
-    border: none;
-    background: transparent;
-    padding: 0;
-    /* Performance optimizations */
-    will-change: transform;
-    transform: translateZ(0);
-    overflow: visible;
-}
-
-.toc-item::before {
-    content: '';
-    position: absolute;
-    right: 11px; /* Centered with progress bar */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background: rgba(134, 185, 176, 0.4);
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    z-index: 1000;
-}
-
-.toc-item:hover::before {
-    background: rgba(134, 185, 176, 0.8);
-    width: 8px;
-    height: 8px;
-    right: 10px;
-}
-
-.toc-item.active::before {
-    background: #86b9b0;
-    width: 10px;
-    height: 10px;
-    right: 9px;
-    box-shadow: 0 0 6px rgba(134, 185, 176, 0.6);
-}
-
-.toc-item-label {
-    /* Basic fallback styles - most styling is done via JavaScript */
-    font-family: "Roboto", 'Courier-new', monospace;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.toc-item:hover .toc-item-label {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-50%) translateX(5px);
-}
-
-.toc-item.active .toc-item-label {
-    color: rgba(255, 255, 255, 1.0); /* 100% white when active */
-}
-
-.toc-item:not(.active) .toc-item-label {
-    color: rgba(255, 255, 255, 0.5); /* 50% white when not active */
-}
-
 /* Click animation */
 @keyframes toc-click-pulse {
     0% {
-        transform: translateY(-50%) scale(1);
+        transform: scale(1);
         box-shadow: 0 0 6px rgba(134, 185, 176, 0.6);
     }
     50% {
-        transform: translateY(-50%) scale(1.3);
+        transform: scale(1.5);
         box-shadow: 0 0 12px rgba(134, 185, 176, 0.8);
     }
     100% {
-        transform: translateY(-50%) scale(1);
+        transform: scale(1);
         box-shadow: 0 0 6px rgba(134, 185, 176, 0.6);
     }
 }
 
-.toc-item.clicked::before {
-    animation: toc-click-pulse 0.4s ease-out;
+.page {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: center;
+    height: 100%;
 }
 
-/* Heading level specific styles */
-.toc-h1::before { 
-    background: rgba(208, 214, 214, 0.6);
-    width: 8px;
-    height: 8px;
-    right: 10px;
-}
-.toc-h2::before { 
-    background: rgba(134, 185, 176, 0.5);
-    width: 6px;
-    height: 6px;
-    right: 11px;
-}
-.toc-h3::before { 
-    background: rgba(76, 114, 115, 0.4);
-    width: 5px;
-    height: 5px;
-    right: 11.5px;
-}
-.toc-h4::before { 
-    background: rgba(76, 114, 115, 0.3);
-    width: 4px;
-    height: 4px;
-    right: 12px;
+.progress-bar {
+    position: fixed;
+    height: 70vh;
+    background: #061f33;
+    width: 3px;
+    top: 10%;
+    right: auto;
+    opacity: 0;
+    border-radius: 2px;
+    transition: opacity 0.2s ease;
 }
 
-.toc-h1.active::before { 
-    background: #d0d6d6; 
-    width: 12px; 
-    height: 12px; 
-    right: 8px; 
-}
-.toc-h2.active::before { 
-    background: #86b9b0; 
-    width: 10px; 
-    height: 10px; 
-    right: 9px; 
-}
-.toc-h3.active::before { 
-    background: #4c7273; 
-    width: 8px; 
-    height: 8px; 
-    right: 10px; 
-}
-.toc-h4.active::before { 
-    background: #4c7273; 
-    width: 7px; 
-    height: 7px; 
-    right: 10.5px; 
+.progress {
+    background: #0c3f68;
+    height: 0%;
+    width: 100%;
+    border-radius: 2px;
 }
 
-.toc-h1:hover::before { 
-    width: 10px; 
-    height: 10px; 
-    right: 9px; 
-}
-.toc-h2:hover::before { 
-    width: 8px; 
-    height: 8px; 
-    right: 10px; 
-}
-.toc-h3:hover::before { 
-    width: 7px; 
-    height: 7px; 
-    right: 10.5px; 
-}
-.toc-h4:hover::before { 
-    width: 6px; 
-    height: 6px; 
-    right: 11px; 
+.marker {
+    position: absolute;
+    left: -3.5px;
+    right: 0;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: #d0d6d6;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.footerlogo {
-    width: 50px;
-    height: 50px;
-    margin: 0 10px 0 auto;
-    padding: 0;
+.marker-label {
+    position: fixed;
+    font-size: 16px;
+    font-family: "Roboto", 'Courier-new', monospace;
+    font-weight: 300;
+    font-style: thin;
+    color: #d0d6d6;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    user-select: none;
+}
+
+.active-heading {
+    transform: scale(1.5);
 }
