@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const box = btn.closest('.code-box');
         const fileUrl = box.dataset.currentFileUrl;
         if (fileUrl) {
-            window.open(fileUrl, '_blank');
+            window.open(fileUrl);
         }
     }
 
