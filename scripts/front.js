@@ -77,8 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const copyBtn = box.querySelector('.copy-btn');
         copyBtn.addEventListener('click', () => copyCode(copyBtn));
 
-        const rawBtn = box.querySelector('.raw-btn');
-        rawBtn.addEventListener('click', () => viewRaw(rawBtn));
+        if (!window.location.pathname.includes('/projects/war/')) {
+            const rawBtn = box.querySelector('.raw-btn');
+            rawBtn.addEventListener('click', () => viewRaw(rawBtn));
+        }
 
         const dlLink = box.querySelector('.download-link');
         dlLink.addEventListener('click', e => {
