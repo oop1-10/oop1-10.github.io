@@ -451,7 +451,7 @@ hr {
 .code-box pre {
     margin: 0;
     overflow: auto;
-    max-height: 400px;
+    max-height: 700px;
     padding: 0px 4px;
     font-size: 14px;
     line-height: 1.5;

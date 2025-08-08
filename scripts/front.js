@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const contentDiv = document.querySelector(".content");
     const progressBar = document.querySelector('.progress-bar');
     const progress = document.querySelector(".progress");
-    var pageHeight = contentDiv.scrollHeight;
+    const pageHeight = contentDiv.scrollHeight;
 
     document.querySelectorAll('.code-box').forEach(box => {
         const fileButtons = box.querySelectorAll('.file-selector button');
@@ -77,8 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const copyBtn = box.querySelector('.copy-btn');
         copyBtn.addEventListener('click', () => copyCode(copyBtn));
 
-        const rawBtn = box.querySelector('.raw-btn');
-        rawBtn.addEventListener('click', () => viewRaw(rawBtn));
+        if (!window.location.pathname.includes('/projects/war/')) {
+            const rawBtn = box.querySelector('.raw-btn');
+            rawBtn.addEventListener('click', () => viewRaw(rawBtn));
+        }
 
         const dlLink = box.querySelector('.download-link');
         dlLink.addEventListener('click', e => {
@@ -101,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const box = btn.closest('.code-box');
         const fileUrl = box.dataset.currentFileUrl;
         if (fileUrl) {
-            window.open(fileUrl, '_blank');
+            window.open(fileUrl);
         }
     }
 
@@ -147,8 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         markerAmount = markers.length;
         markerHeights = [];
 
-        var totalHeight = 0;
-        markers.forEach((marker, index) => {
+        markers.forEach((marker) => {
             const headingMarker = document.createElement('div');
             const headingLabel = document.createElement('span');
             headingLabel.textContent = marker.textContent;
@@ -158,7 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
             headingLabel.classList.add('marker-label');
             headingLabel.style.left = `${20 + headingMarker.left}px`;
 
-            const percent = (totalHeight/pageHeight) * 100;
+            const progress = marker.offsetTop-20;
+            const percent = (progress/pageHeight) * 100;
             headingMarker.style.top = percent + "%";
             headingLabel.style.top = (percent * 0.7) + 9.5 + "%";
 
@@ -166,13 +168,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             markerHeights.push(percent);
 
-            const next = markers[index + 1];
-            const start = marker.offsetTop;
-            const end   = next ? next.offsetTop : contentDiv.scrollHeight;
-            totalHeight += end - start;
-
             headingMarker.addEventListener('click', function() {
-                const scrollTo = start - contentDiv.offsetTop;
+                const scrollTo = progress;
+                contentDiv.scrollTo({
+                    top: scrollTo,
+                    behavior: 'smooth'
+                });
+                headingMarker.style.animation = 'toc-click-pulse 0.3s ease-out forwards';
+                setTimeout(() => headingMarker.style.animation = '', 300);
+            });
+
+            headingLabel.addEventListener('click', function() {
+                const scrollTo = progress;
                 contentDiv.scrollTo({
                     top: scrollTo,
                     behavior: 'smooth'
@@ -185,6 +192,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 headingLabel.style.opacity = '1';
             });
             headingMarker.addEventListener('mouseout', function() {
+                headingLabel.style.opacity = '0.2';
+            });
+            headingLabel.addEventListener('mouseover', function() {
+                headingLabel.style.opacity = '1';
+                headingLabel.style.cursor = 'pointer';
+            });
+            headingLabel.addEventListener('mouseout', function() {
                 headingLabel.style.opacity = '0.2';
             });
         });
