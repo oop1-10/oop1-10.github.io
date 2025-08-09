@@ -328,10 +328,10 @@ hr {
     font-weight: 300;
     font-size: 16px;
     transition: all 0.3s ease;
-    z-index: 1000;
     white-space: normal;
     width: 100%;
     text-decoration:none;
+    z-index: 10000;
 }
 
 .in-project-button:hover {
@@ -347,20 +347,15 @@ hr {
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    z-index: 1000;
     opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.2s ease; /* Reduced transition time */
+    text-align: center;
+    transition: opacity 0.2s ease;
     overflow: hidden;
-    max-height: 300px;
-    /* Performance optimizations */
-    will-change: max-height, opacity;
-    transform: translateZ(0);
-    contain: layout style;
 }
 
 .panel-toggle {
     background-color: #061f33;
-    color: #fff;
+    color: #ffffff;
     border: none;
     padding: 8px;
     border-radius: 5px;
@@ -369,9 +364,8 @@ hr {
     font-weight: 300;
     font-size: 16px;
     width: 100%;
-    text-align: center;
-    margin-top: 5px;
     transition: background-color 0.3s ease;
+    z-index: 10001;
 }
 
 .panel-toggle:hover {
@@ -379,11 +373,9 @@ hr {
 }
 
 .project-panel.collapsed .in-project-button {
-    display: none;
-}
-
-.project-panel.collapsed {
-    max-height: 40px;
+    height: 0;
+    padding: 0;
+    opacity: 0;
 }
 
 .code-box {

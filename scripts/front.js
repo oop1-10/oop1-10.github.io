@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const panel = document.createElement('div');
         panel.className = 'project-panel';
         panel.style.opacity = '0';
+        panel.style.maxHeight = '300px';
         body.appendChild(panel);
         
         fetch('/')
@@ -267,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     btn.setAttribute('role','button');
                     btn.className = 'in-project-button';
                     btn.href = href;
-                    
+
                     fetch(href) 
                         .then(r => r.text())
                         .then(pageHtml => {
