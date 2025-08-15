@@ -297,10 +297,7 @@ hr {
     font-size: 16px;
     z-index: 1000;
     white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease; /* Reduced transition time */
-    /* Performance optimizations */
-    will-change: opacity;
-    transform: translateZ(0);
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .back-button:hover {
