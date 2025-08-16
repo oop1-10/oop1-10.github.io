@@ -187,9 +187,6 @@ hr {
     animation: slide-in 0.9s cubic-bezier(0, 0, 0.48, 1) forwards;
     scrollbar-width: thin;
     scrollbar-color: #d0d6d6 transparent;
-    /* Performance optimizations */
-    will-change: transform, opacity;
-    transform: translateZ(0); /* Force hardware acceleration */
 }
 
 .align-center {
@@ -347,7 +344,8 @@ hr {
     opacity: 0;
     text-align: center;
     transition: opacity 0.2s ease;
-    overflow: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #d0d6d6 transparent;
 }
 
 .panel-toggle {

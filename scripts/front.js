@@ -1,7 +1,7 @@
 function loadCodeFile(box, file) {
     const pre = box.querySelector('pre');
     const code = pre.querySelector('code');
-    const fileUrl = `./${file}`; // Assumes files in same dir; adjust if in subdir like 'code/'
+    const fileUrl = `${file}`; // Assumes files in same dir; adjust if in subdir like 'code/'
     
     fetch(fileUrl)
         .then(res => {
@@ -9,8 +9,26 @@ function loadCodeFile(box, file) {
             return res.text();
         })
         .then(text => {
+            if (file.includes('https://raw.githubusercontent.com/')) {
+                try {
+                    const rawUrl = 'https://raw.githubusercontent.com/oop1-10/webring/main/index.html';
+                    const response = fetch(rawUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    
+                    text = response.text(); // Get the raw text content
+                    console.log(content); // Print the content to the console
+                    // You can use the content as needed, e.g., display it in the DOM
+                    // document.getElementById('output').textContent = content;
+                } catch (error) {
+                    console.error('Error fetching file:', error);
+                }
+            }
+
             // Reset the pre/code structure
-            pre.innerHTML = '<code class="language-cpp"></code>';
+            pre.innerHTML = '<code></code>';
             const newCode = pre.querySelector('code');
             newCode.textContent = text;
             
@@ -278,7 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const panel = document.createElement('div');
         panel.className = 'project-panel';
         panel.style.opacity = '0';
-        panel.style.maxHeight = '300px';
         body.appendChild(panel);
         
         fetch('/')
@@ -357,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
             progressBar.style.opacity = '1';
         }, 900);
 
-        const throttledUpdatePosition = throttle(updateButtonPosition, 0); // ~60fps
+        const throttledUpdatePosition = throttle(updateButtonPosition, 0);
         window.addEventListener('resize', debounce(updateButtonPosition, 0));
         window.addEventListener('scroll', throttledUpdatePosition);
     }
