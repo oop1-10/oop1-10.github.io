@@ -390,12 +390,7 @@ hr {
     padding: 8px 12px;
     border-bottom: 1px solid #d0d6d6;
     flex-wrap: nowrap;
-    overflow-x: auto;
     white-space: nowrap;
-}
-
-.code-header > * {
-    flex: 0 0 auto;
 }
 
 .code-header button, .code-header a {
@@ -491,6 +486,8 @@ hr {
     padding: 0;
     border-bottom: none;
     margin-right: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 .file-selector button {
     margin-right: 8px;
