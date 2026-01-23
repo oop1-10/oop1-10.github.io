@@ -50,6 +50,36 @@ function loadCodeFile(box, file) {
         });
 }
 
+
+async function loadProjectCards() {
+    const projectTab = document.querySelector(".projecttab");
+    try {
+        const response = await fetch("scripts/projects.json");
+        if (!response.ok) {
+            throw new Error("HTTP error.");
+        }
+        const JSON = await response.json();
+        console.log(JSON);
+
+        for (let i = 0; i < JSON.length; i++) {
+            const projectCard = document.createElement("a");
+        projectCard.classList.add("links");
+        projectCard.id = 'projectlink';
+        projectCard.setAttribute("href", JSON[i].directory);
+        projectCard.innerHTML = `
+            <figure class="projectcard">
+                <img src="${JSON[i].image}" alt="Project Picture" class="projectimg">
+                <figcaption>${JSON[i].caption}</figcaption>
+            </figure>
+        `;
+
+        projectTab.appendChild(projectCard);
+        }
+    } catch (error) {
+        console.log(error.status);
+    }
+}
+
 function throttle(func, limit) {
     let inThrottle;
     return function() {
@@ -494,4 +524,5 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error initializing particles:", error);
     }
     updateLastCommitDate();
+    loadProjectCards();
 })

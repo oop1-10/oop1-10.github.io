@@ -1,0 +1,27 @@
+[
+    {
+        "caption": "Wuthering Waves Builds",
+        "directory": "projects/wuwa",
+        "image": "images/wutheringWaves.webp"
+    },{
+        "caption": "Chess",
+        "directory": "projects/chess",
+        "image": "images/chess.png"
+    },{
+        "caption": "Webring",
+        "directory": "projects/wb",
+        "image": "images/webring.png"
+    },{
+        "caption": "Automatic<br>Wall-Avoiding Robot",
+        "directory": "projects/war",
+        "image": "images/robotcover.jpg"
+    },{
+        "caption": "Adjustable Automatic Light Switch",
+        "directory": "projects/aals",
+        "image": "images/lightSensorCover.jpg"
+    },{
+        "caption": "Automatic Plant-watering System",
+        "directory": "projects/apws",
+        "image": "images/plantwateringpfp.jpg"
+    }
+]
