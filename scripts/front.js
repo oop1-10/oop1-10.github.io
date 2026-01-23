@@ -1,7 +1,6 @@
 function loadCodeFile(box, file) {
     const pre = box.querySelector('pre');
-    const code = pre.querySelector('code');
-    const fileUrl = `${file}`; // Assumes files in same dir; adjust if in subdir like 'code/'
+    const fileUrl = `${file}`;
     
     fetch(fileUrl)
         .then(res => {
@@ -51,7 +50,7 @@ function loadCodeFile(box, file) {
 }
 
 
-async function loadProjectCards() {
+async function loadProjectCards(contentDiv) {
     const projectTab = document.querySelector(".projecttab");
     try {
         const response = await fetch("scripts/projects.json");
@@ -72,6 +71,19 @@ async function loadProjectCards() {
                 <figcaption>${JSON[i].caption}</figcaption>
             </figure>
         `;
+
+        projectCard.addEventListener('click', function(e) {
+            if (this.classList.contains('download-link')) return;
+            if (this.href && this.href.startsWith(window.location.origin)) {
+                e.preventDefault();
+                const currentPage = contentDiv;
+                currentPage.style.animation = 'slide-out 0.9s cubic-bezier(0, 0, 0.48, 1) forwards';
+                
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 900);
+            }
+        });
 
         projectTab.appendChild(projectCard);
         }
@@ -197,21 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.classList.contains('download-link')) return;
-            if (this.href && this.href.startsWith(window.location.origin)) {
-                e.preventDefault();
-                const currentPage = contentDiv;
-                currentPage.style.animation = 'slide-out 0.9s cubic-bezier(0, 0, 0.48, 1) forwards';
-                
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 900);
-            }
-        });
-    });
-
     if (typeof hljs !== 'undefined') {
         hljs.highlightAll();
         if (typeof hljs.initLineNumbersOnLoad === 'function') {
@@ -328,30 +325,31 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.style.opacity = '0';
         body.appendChild(panel);
         
-        fetch('/')
-            .then(res => res.text())
-            .then(html => {
-                const doc = new DOMParser().parseFromString(html, 'text/html');
-                const links = doc.querySelectorAll('.projecttab a');
+        fetch("/scripts/projects.json")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(json => {
                 const fragment = document.createDocumentFragment();
-                
-                links.forEach(link => {
-                    const rawHref = link.getAttribute('href');
-                    const href = rawHref.startsWith('/') ? rawHref : `/${rawHref}`;
-                    const fallback = link.textContent.trim();
+
+                json.forEach(project => {
                     const btn = document.createElement('a');
-                    btn.setAttribute('role','button');
+                    btn.setAttribute('role', 'button');
                     btn.className = 'in-project-button';
+                    
+                    // Ensure the link is absolute so it works from inside /projects/xyz/
+                    // e.g., "projects/chess" becomes "/projects/chess"
+                    const rawHref = project.directory;
+                    const href = rawHref.startsWith('/') ? rawHref : `/${rawHref}`;
                     btn.href = href;
 
-                    fetch(href) 
-                        .then(r => r.text())
-                        .then(pageHtml => {
-                            const pdoc = new DOMParser().parseFromString(pageHtml, 'text/html');
-                            btn.textContent = pdoc.querySelector('title')?.textContent || fallback;
-                        })
-                        .catch(() => { btn.textContent = fallback; });
-                    
+                    // Clean up caption (replace <br> with space) for the button label
+                    // "Automatic<br>Wall-Avoiding Robot" -> "Automatic Wall-Avoiding Robot"
+                    btn.textContent = project.caption.replace(/<br\s*\/?>/gi, ' ');
+
                     btn.addEventListener('click', e => {
                         e.preventDefault();
                         contentDiv.style.animation = 'slide-out 0.9s cubic-bezier(0,0,0.48,1) forwards';
@@ -359,10 +357,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                     fragment.appendChild(btn);
                 });
-                
+
                 panel.appendChild(fragment);
                 setTimeout(() => panel.style.opacity = '1', 900);
-                
+
                 // Add collapse/expand toggle button at bottom
                 const toggleBtn = document.createElement('button');
                 toggleBtn.className = 'panel-toggle';
@@ -372,6 +370,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     toggleBtn.textContent = panel.classList.contains('collapsed') ? '▼' : '▲';
                 });
                 panel.appendChild(toggleBtn);
+            })
+            .catch(error => {
+                console.error('Error loading project menu:', error);
             });
 
         const updateButtonPosition = () => {
@@ -524,5 +525,5 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error initializing particles:", error);
     }
     updateLastCommitDate();
-    loadProjectCards();
+    loadProjectCards(contentDiv);
 })
