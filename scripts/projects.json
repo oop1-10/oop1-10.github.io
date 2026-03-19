@@ -1,5 +1,9 @@
 [
     {
+        "caption": "EECS 2032",
+        "directory": "projects/eecs2032",
+        "image": "https://www.nxp.com/assets/images/en/dev-board-image/FRDM-KL43Z-ANGLE.jpg"
+    },{
         "caption": "Wuthering Waves Builds",
         "directory": "projects/wuwa",
         "image": "images/wutheringWaves.webp"

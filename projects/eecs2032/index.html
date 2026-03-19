@@ -3,7 +3,7 @@
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Webring</title>
+            <title>EECS 2032</title>
             <link rel="stylesheet" href="/styles.css">
             <link rel="icon" href="/images/logo white.svg" type="image/svg+xml">
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,44 +33,37 @@
             <script src="/scripts/front.js"></script>
 
             <div class="content">
-                <h1 class="large-header align-center" id="webring">Webring</h1>
-                <p class="align-center">July 2025 - Access at <a href="https://webring.thomasnewman.ca" class="links">webring.thomasnewman.ca</a></p>
+                <h1 class="large-header align-center" id="EECS 2032">EECS 2032</h1>
+                <p class="align-center">March 2026</p>
                 <hr>
 
                 <div class="aboutme">
                     <div class="bio thick">
-                        <p>In respect of this project, I tried recreating a relic of the internet, the WebRing
-                            <strong>(WR)</strong> using a combination of HTML, CSS and JavaScript. I wanted
-                            to capture the essence of the original WebRing concept, which was to connect
-                            like-minded websites in a circular structure, allowing users to easily navigate
-                            between them. This project was a fun exploration of web development and the
-                            nostalgia of early internet culture. If possible, I believe that it would be beneficial for York University to adopt this application,
-                            specifically for showcasing student projects and fostering a sense of community.</p>
+                        <p>This was a required course I had to take at York University in second year.  It was mostly comprised of work using BASH and C,
+                            with a foundation in embedded systems.  This section covers the labs I worked on during this semester.
+                        </p>
                     </div>
                     <figure id="pfp">
-                        <img src="/images/webring.png" alt="Profile Picture" class="profilepic projectimg">
-                        <figcaption class="align-center">An example of the webring</figcaption>
+                        <img src="https://www.nxp.com/assets/images/en/dev-board-image/FRDM-KL43Z-ANGLE.jpg" alt="Profile Picture" class="profilepic projectimgWide">
+                        <figcaption class="align-center">The microcontroller used in the course, the KL43Z</figcaption>
                     </figure>
                     <hr>
                     <div class = "flex">
                         <h2 class="medium-header" id="features">Features</h2>
                         <ul>
-                            <li>Simple dark theme layout with CSS animations</li>
-                            <li>Member data is retrieved from a master CSV file for easy addition of new members</li>
-                            <li>Maximum 10 members per page on the list, with stylized buttons for easy navigation</li>
-                            <li>Easily sort and search for specific members on the WebRing</li>
-                            <li>Simple and easy widget for finding the next member in the list</li>
+                            <li>Labs 1-7 of the course, with Lab 1-4 being written in BASH, and the remaining files being written in C</li>
                         </ul>
                         <hr>
                         <h2 class="medium-header" id="code">Code</h2>
                         <div class="code-box">
                             <div class="code-header">
                                 <div class="file-selector">
-                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/webring/main/index.html">index.html</button>
-                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/webring/main/styles.css">styles.css</button>
-                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/webring/main/scripts/front.js">front.js</button>
-                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/webring/main/webring-widget.html">widget.html</button>
-                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/webring/main/scripts/widget.js">widget.js</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab5/lab5_1.c">lab5_1.c</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab5/lab5_2.c">lab5_2.c</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab5/lab5_3.c">lab5_3.c</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab5/lab5_4.c">lab5_4.c</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab6/lab6_1.c">lab6_1.c</button>
+                                    <button class="file-btn" data-file="https://raw.githubusercontent.com/oop1-10/EECS2032/main/Lab7/lab7.c">lab7.c</button>
                                 </div>
                                 <div class="tool-buttons">
                                     <button class="copy-btn">Copy</button>
@@ -78,23 +71,24 @@
                                     <a class="download-link" href="#">Download</a>
                                 </div>
                             </div>
-                            <pre><code>Loading code...</code></pre>
+                            <pre><code class="language-c">Loading code...</code></pre>
                         </div>
                         <hr>
                         <h2 class="medium-header" id="requirements">Requirements</h2>
                         <h3 class="small-header">Hardware</h3>
                         <ul>
-                            <li>Laptop - <strong>Used to access the website</strong></li>
+                            <li>Laptop - <strong>Used to compile and run the code.</strong></li>
                         </ul>
                         <h3 class="small-header">Software</h3>
                         <ul>
                             <li>Visual Studio Code(recommended) - <strong>Used to run and edit code on the website</strong></li>
+                            <li>GCC or equivalent compiler - <strong>Used to compile code into executable format for the computer</strong></li>
                         </ul>
                     </div>
                 </div>
                 <br><hr>
                 <footer>
-                    <p class="footer align-center">Last updated: <span id="last-updated"></span><br>© 2026 Thomas Newman, Hosted on Github Pages</p>
+                    <p class="footer align-center">Last updated: <span id="last-updated"></span><br>© 2026 Thomas Newman</p>
                 </footer>
             </div>
             <div class="progress-bar">
